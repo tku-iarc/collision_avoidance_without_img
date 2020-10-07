@@ -1,0 +1,441 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <!-- We use a custom world for the rrbot so that the camera angle is launched correctly -->
+
+  <world name="default">
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- Global light source -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <physics type='ode'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>0.1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <gravity>0 0 -9.8</gravity>
+    </physics>
+
+
+
+
+    <!-- <model name="/table_box">
+      <static>true</static>
+      <link name="/table_box">
+        <visual name="visual">
+          <pose>0.6 0 0.3 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>1 1 0.6</size>
+            </box>
+          </geometry>
+          <material><ambient>0.1 0.1 0.1 1</ambient></material>
+        </visual>
+      </link>
+    </model> -->
+
+
+
+    <model name="/right_arm">
+      <pose>0.3 0.1 13  0 0 0</pose>
+      <static>false</static>
+      <link name="/right_arm">
+        <visual name="visual">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.02</radius>
+            </sphere>
+          </geometry>
+          <material><ambient>1 0 0 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="/left_arm">
+      <pose>0.3 -0.1 13  0 0 0</pose>
+      <static>false</static>
+      <link name="/left_arm">
+        <visual name="visual">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <sphere>
+              <radius>0.02</radius>
+            </sphere>
+          </geometry>
+          <material><ambient>1 0 0 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="/right_qarm">
+      <pose>0.3 0.1 13  0 0 0</pose>
+      <static>false</static>
+      <link name="/left_arm">
+        <visual name="visual">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.005</radius>
+              <length>0.2</length>
+            </cylinder>
+          </geometry>
+          <material><ambient>1 0 0 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="/left_qarm">
+      <pose>0.3 -0.1 13  0 0 0</pose>
+      <static>false</static>
+      <link name="/left_arm">
+        <visual name="visual">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.005</radius>
+              <length>0.2</length>
+            </cylinder>
+          </geometry>
+          <material><ambient>1 0 0 1</ambient></material>
+        </visual>
+      </link>
+    </model>
+
+
+
+    <!-- Focus camera on tall pendulum -->
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>4.927360 -4.376610 3.740080 0.000000 0.275643 2.356190</pose>
+        <view_controller>orbit</view_controller>
+      </camera>
+    </gui>
+
+
+
+  <model name='table_box'>
+      <link name='link'>
+        <inertial>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.166667</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.166667</iyy>
+            <iyz>0</iyz>
+            <izz>0.166667</izz>
+          </inertia>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+        </inertial>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <gravity>1</gravity>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>1 2 0.65</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Grey</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+            <shader type='pixel'>
+              <normal_map>__default__</normal_map>
+            </shader>
+            <ambient>0.3 0.3 0.3 1</ambient>
+            <diffuse>0.7 0.7 0.7 1</diffuse>
+            <specular>0.01 0.01 0.01 1</specular>
+            <emissive>0 0 0 1</emissive>
+          </material>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='table_box_collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>1 2 0.65</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>100</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+          
+        <sensor name="RFsrRL" type="contact">
+          <always_on>1</always_on>
+          <update_rate>20</update_rate>
+          <visualize>true</visualize>
+          <contact>
+              <collision>table_box_collision</collision>
+              <!-- <collision>table_box_collision</collision> -->
+              <!-- <collision name="${side}_Link_2_collision"> -->
+          </contact>
+          <plugin name="gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">
+              <!-- <robotNamespace>nubot</robotNamespace> -->
+              <alwaysOn>true</alwaysOn>
+              <updateRate>20</updateRate>
+              <bumperTopicName>bumper2</bumperTopicName>
+              <frameName>symbol</frameName>
+          </plugin>
+        </sensor>
+
+
+
+      </link>
+      <static>1</static>
+      <allow_auto_disable>1</allow_auto_disable>
+      <pose frame=''>0.55 0 0.345 0 0 0</pose>
+    </model>
+
+
+
+  <model name='aa_box'>
+    <link name='link'>
+      <inertial>
+        <mass>1</mass>
+        <inertia>
+          <ixx>10</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>10</iyy>
+          <iyz>0</iyz>
+          <izz>10</izz>
+          <!-- 0.166667 -->
+        </inertia>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+      </inertial>
+      <self_collide>0</self_collide>
+      <enable_wind>0</enable_wind>
+      <kinematic>0</kinematic>
+      <pose frame=''>0 0 0 0 -0 0</pose>
+      <gravity>true</gravity>
+      <visual name='visual'>
+        <geometry>
+          <box>
+            <size>0.1 0.1 0.6</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Grey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <shader type='pixel'>
+            <normal_map>__default__</normal_map>
+          </shader>
+          <ambient>0.3 0.3 0.3 1</ambient>
+          <diffuse>0.7 0.7 0.7 1</diffuse>
+          <specular>0.01 0.01 0.01 1</specular>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <transparency>0</transparency>
+        <cast_shadows>1</cast_shadows>
+      </visual>
+      <collision name='aa_box_collision'>
+        <laser_retro>0</laser_retro>
+        <max_contacts>10</max_contacts>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <geometry>
+          <box>
+            <!-- <size>0.20492 0.161593 0.313819</size> -->
+            <size>0.1 0.1 0.6</size>
+          </box>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>100</mu>
+              <mu2>100</mu2>
+              <fdir1>0 0 0</fdir1>
+              <slip1>0</slip1>
+              <slip2>0</slip2>
+            </ode>
+            <torsional>
+              <coefficient>1</coefficient>
+              <patch_radius>0</patch_radius>
+              <surface_radius>0</surface_radius>
+              <use_patch_radius>1</use_patch_radius>
+              <ode>
+                <slip>0</slip>
+              </ode>
+            </torsional>
+          </friction>
+          <bounce>
+            <restitution_coefficient>0</restitution_coefficient>
+            <threshold>1e+06</threshold>
+          </bounce>
+          <contact>
+            <collide_without_contact>0</collide_without_contact>
+            <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+            <collide_bitmask>1</collide_bitmask>
+            <ode>
+              <soft_cfm>0</soft_cfm>
+              <soft_erp>0.2</soft_erp>
+              <kp>1e+13</kp>
+              <kd>1</kd>
+              <max_vel>0.01</max_vel>
+              <min_depth>0</min_depth>
+            </ode>
+            <bullet>
+              <split_impulse>1</split_impulse>
+              <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+              <soft_cfm>0</soft_cfm>
+              <soft_erp>0.2</soft_erp>
+              <kp>1e+13</kp>
+              <kd>1</kd>
+            </bullet>
+          </contact>
+        </surface>
+      </collision>
+
+
+      <sensor name="RFsrRL" type="contact">
+            <always_on>1</always_on>
+            <update_rate>20</update_rate>
+            <visualize>true</visualize>
+            <contact>
+               <collision>aa_box_collision</collision>
+        
+            </contact>
+            <plugin name="gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">
+               
+               <alwaysOn>true</alwaysOn>
+               <updateRate>20</updateRate>
+               <bumperTopicName>bumper</bumperTopicName>
+               <frameName>symbol</frameName>
+            </plugin>
+      </sensor>
+
+      <!-- position controller -->
+
+
+
+
+    </link>
+    
+      <plugin name="base_controller" filename="libgazebo_ros_planar_move.so">
+        <commandTopic>cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <odometryFrame>/odom</odometryFrame>
+        <odometryRate>100.0</odometryRate>
+        <robotBaseFrame>link</robotBaseFrame>
+        
+      </plugin>
+        <!-- <broadcastTF>true</broadcastTF> -->
+   
+  <static>0</static>
+  <allow_auto_disable>1</allow_auto_disable>
+  <pose frame=''>0.58 0 0.82 0 0 0</pose>
+</model>
+
+
+
+
+<!-- <sensor name="RFsrRL" type="contact">
+  <always_on>1</always_on>
+  <update_rate>20</update_rate>
+  <visualize>true</visualize>
+    <plugin name="gazebo_ros_bumper_ controller" filename="libgazebo_ros_bumper.so">
+      <robotNamespace>nubot</robotNamespace>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>20</updateRate>
+      <bumperTopicName>bumper</bumperTopicName>
+      <frameName>symbol</frameName>
+    </plugin>
+</sensor> -->
+<!-- 
+<gazebo>
+  <plugin name="gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">
+    <alwaysOn>true</alwaysOn>
+    <updateRate>20</updateRate>
+    <bumperTopicName>bumper</bumperTopicName>
+    <frameName>world</frameName>
+  </plugin>
+</gazebo> -->
+
+<!-- 
+<gazebo reference="bump_sensor">
+<sensor name="main_bumper" type="contact">
+    <selfCollide>true</selfCollide>
+    <alwaysOn>true</alwaysOn>
+    <updateRate>15.0</updateRate>
+    <material>Gazebo/Red</material>
+    <contact>
+       <collision>bump_sensor_collision</collision>
+    </contact>
+    <plugin name="gazebo_ros_bumper_controller" filename="libgazebo_ros_bumper.so">   
+        <bumperTopicName>bumper_vals</bumperTopicName>
+        <frameName>world</frameName>
+    </plugin>
+</sensor>
+</gazebo> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </world>
+</sdf>

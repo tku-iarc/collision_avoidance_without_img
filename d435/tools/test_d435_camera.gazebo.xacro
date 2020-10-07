@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<robot name="realsense2_camera" xmlns:xacro="http://ros.org/wiki/xacro">
+    <gazebo reference="base_link">
+      <static>1</static>
+      <gravity>false</gravity>
+       <material name="Aluminum">
+            <color rgba="0.5 0.5 0.5 1"/>
+        </material>
+    </gazebo>
+
+</robot>
